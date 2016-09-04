@@ -11,8 +11,11 @@ public class Queue {
         size = 0;
     }
 
-    public Queue(int data) {
-        start = new Node(data, null);
+    public Queue(int d, int... data) {
+        start = new Node(d, null);
+        for (int tData : data) {
+            enqueue(tData);
+        }
         // end = start;
         size = 1;
     }
@@ -36,6 +39,7 @@ public class Queue {
             System.err.println("Cannot dequeue an empty queue.");
             return;
         }
+        peek();
         Node temp;
         temp = start.getNext();
         start = temp;
@@ -44,7 +48,7 @@ public class Queue {
 
     public void peek() {
         if (start == null)
-            System.err.println("Cannot peek on empty Queue");
+            System.out.println("Cannot peek on empty Queue");
         else
             System.out.println(start.getData());
     }
@@ -57,6 +61,9 @@ public class Queue {
     }
 
     public void isFull() {
-        //?
+/*
+        Runtime run = Runtime.getRuntime();
+        System.out.println((run.totalMemory() - run.freeMemory()) / 1024 / 1024 + " Mb used");
+*/
     }
 }

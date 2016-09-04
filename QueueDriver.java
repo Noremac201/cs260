@@ -3,9 +3,9 @@
  */
 public class QueueDriver {
     public static void main(String[] args) {
-        Queue myQ = new Queue(23);
-        myQ.enqueue(25);
+        Queue myQ = new Queue(23,45,35);
         myQ.dequeue();
-        myQ.peek();
+        myQ.dequeue();
+        myQ.dequeue();
     }
 }
