@@ -3,9 +3,12 @@
  */
 public class QueueDriver {
     public static void main(String[] args) {
-        Queue myQ = new Queue(23,45,35);
-        myQ.dequeue();
-        myQ.dequeue();
-        myQ.dequeue();
+        Queue myQ = new Queue(10,20,30);
+        myQ.display();
+        myQ.deQueue();
+        myQ.deQueue();
+        myQ.deQueue();
+        myQ.deQueue();
+        myQ.display();
     }
 }

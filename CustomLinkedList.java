@@ -142,4 +142,20 @@ public class CustomLinkedList {
         }
         System.out.print(aNode.getData() + "\n");
     }
+
+    public int searchByValue(int val) {
+        if (size == 0) {
+            System.err.println("List is empty");
+            System.exit(1);
+        }
+        Node aNode = start;
+        for (int i = 1; i < size - 1; i++) {
+            if (val == aNode.getData()) {
+                return i;
+            }
+            aNode = aNode.getNext();
+        }
+        return -1;
+    }
+
 }

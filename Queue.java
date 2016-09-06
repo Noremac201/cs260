@@ -3,43 +3,50 @@
  */
 public class Queue {
     private Node start;
+    private Node end;
     private int size;
 
     public Queue() {
         start = null;
-        //  end = null;
+        end = null;
         size = 0;
     }
 
     public Queue(int d, int... data) {
         start = new Node(d, null);
+        end = start;
+        size = 1;
+
         for (int tData : data) {
-            enqueue(tData);
+            enQueue(tData);
         }
         // end = start;
-        size = 1;
     }
 
-    public void enqueue(int data) {
+    public void enQueue(int data) {
         if (start == null) {
             start = new Node(data, null);
+            end = start.getNext();
             return;
         }
-        Node n = start;
+/*
+        Node n = end;
         while (n.getNext() != null) {
             n = n.getNext();
         }
         n.setNext(new Node(data, null));
-        //end = n.getNext();
+*/
+        end.setNext(new Node(data, null));
+        end = end.getNext();
         size++;
     }
 
-    public void dequeue() {
+    public void deQueue() {
         if (start == null) {
-            System.err.println("Cannot dequeue an empty queue.");
+            System.err.println("Cannot deQueue an empty queue.");
             return;
         }
-        peek();
+        //peek();
         Node temp;
         temp = start.getNext();
         start = temp;
@@ -65,5 +72,23 @@ public class Queue {
         Runtime run = Runtime.getRuntime();
         System.out.println((run.totalMemory() - run.freeMemory()) / 1024 / 1024 + " Mb used");
 */
+    }
+
+    public void display() {
+        if (start == null) {
+            System.out.println("Queue is empty");
+            return;
+        }
+        Node temp = start;
+
+        System.out.print("Queue => ");
+        while (temp.getNext() != null) {
+            System.out.print(temp.getData() + ",");
+            temp = temp.getNext();
+        }
+        System.out.print(temp.getData() + "\n");
+
+        System.out.println("Front Pointer => " + start.getData());
+        System.out.println("Rear Pointer  => " + end.getData());
     }
 }
