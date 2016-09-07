@@ -1,12 +1,12 @@
 /**
  * Created by bold on 9/1/16.
  */
-public class CustomLinkedList {
+public class CLL {
     private Node start;
     private Node end;
     private int size;
 
-    public CustomLinkedList() {
+    public CLL() {
         start = null;
         end = null;
         size = 0;
@@ -48,11 +48,6 @@ public class CustomLinkedList {
     }
 
     public void insertAtPos(int val, int pos) {
-        if (pos == 1 || pos >= size) {
-            System.err.println("Invalid Position\n");
-            return;
-        }
-
         Node node = new Node(val, null);
         Node aNode = start;
         pos = pos - 1;
@@ -100,29 +95,6 @@ public class CustomLinkedList {
         size--;
     }
 
-    public void updateAtPosition(int pos, int data) {
-        if (pos == 1) {
-            start.getNext().setData(data);
-        }
-        if (pos == size) {
-            Node s = start;
-            while (s.getNext() != null) {
-                s = s.getNext();
-            }
-            s.setData(data);
-            return;
-        }
-        Node aNode = start;
-        pos = pos - 1;
-        for (int i = 1; i < size - 1; i++) {
-            if (i == pos) {
-                aNode.setData(data);
-            }
-            aNode = aNode.getNext();
-        }
-        return;
-    }
-
     public void display() {
         System.out.print("Linked List = ");
         if (size == 0) {
@@ -142,27 +114,4 @@ public class CustomLinkedList {
         }
         System.out.print(aNode.getData() + "\n");
     }
-
-    public int searchByValue(int val) {
-        if (size == 0) {
-            System.err.println("List is empty");
-            System.exit(1);
-        }
-        Node aNode = start;
-        for (int i = 1; i < size - 1; i++) {
-            if (val == aNode.getData()) {
-                return i;
-            }
-            aNode = aNode.getNext();
-        }
-        return -1;
-    }
-
-    public Node getStart() {
-        return start;
-    }
-    public Node getEnd() {
-        return end;
-    }
-
 }
