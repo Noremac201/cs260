@@ -100,6 +100,26 @@ public class CustomLinkedList {
         size--;
     }
 
+    public void display() {
+        System.out.print("Linked List = ");
+        if (size == 0) {
+            System.out.println("empty");
+            return;
+        }
+        if (start.getNext() == null) {
+            System.out.println(start.getData());
+            return;
+        }
+        Node aNode = start;
+        System.out.print(start.getData() + "->");
+        aNode = start.getNext();
+        while (aNode.getNext() != null) {
+            System.out.print(aNode.getData() + "->");
+            aNode = aNode.getNext();
+        }
+        System.out.print(aNode.getData() + "\n");
+    }
+
     public void updateAtPosition(int pos, int data) {
         if (pos == 1) {
             start.getNext().setData(data);
@@ -123,30 +143,11 @@ public class CustomLinkedList {
         return;
     }
 
-    public void display() {
-        System.out.print("Linked List = ");
-        if (size == 0) {
-            System.out.println("empty");
-            return;
-        }
-        if (start.getNext() == null) {
-            System.out.println(start.getData());
-            return;
-        }
-        Node aNode = start;
-        System.out.print(start.getData() + "->");
-        aNode = start.getNext();
-        while (aNode.getNext() != null) {
-            System.out.print(aNode.getData() + "->");
-            aNode = aNode.getNext();
-        }
-        System.out.print(aNode.getData() + "\n");
-    }
-
     public int searchByValue(int val) {
         if (size == 0) {
             System.err.println("List is empty");
-            System.exit(1);
+            //returns impossible vindex.
+            return -1;
         }
         Node aNode = start;
         for (int i = 1; i < size - 1; i++) {
@@ -155,12 +156,14 @@ public class CustomLinkedList {
             }
             aNode = aNode.getNext();
         }
+        //if not found, returns impossible index.
         return -1;
     }
 
     public Node getStart() {
         return start;
     }
+
     public Node getEnd() {
         return end;
     }

@@ -2,47 +2,56 @@
  * Created by bold on 9/6/16.
  */
 public class CustomQueue {
-    CustomLinkedList l = new CustomLinkedList();
+    CustomLinkedList list = new CustomLinkedList();
 
     public void enQueue(int val) {
-        l.insertAtEnd(val);
+        list.insertAtEnd(val);
     }
 
     public void deQueue() {
-        if (l.getSize() < 1) {
-            System.err.println("error");
+        if (list.getSize() < 1) {
+            System.out.println("\nCannot DeQueue an empty Queue.");
             return;
         }
-        l.deleteAtPos(1);
+        list.deleteAtPos(1);
     }
 
     public void peek() {
-        System.out.println(l.getStart().getData());
+        if (!isEmpty()) {
+            System.out.println(list.getStart().getData());
+            return;
+        }
+        System.out.println("\nCannot peek on empty Queue.");
     }
 
-    public void isFull() {
-        return;
+    public Boolean isFull() {
+        //LinkedList is only capped by physical memory
+        return false;
     }
 
     public Boolean isEmpty() {
-        return l.getSize() == 0;
+        return list.getSize() == 0;
     }
 
     public void display() {
-        if (l.getStart() == null) {
-            System.out.println("Queue is empty");
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
             return;
         }
-        Node temp = l.getStart();
+        Node temp = list.getStart();
 
         System.out.print("Queue => ");
         while (temp.getNext() != null) {
             System.out.print(temp.getData() + ",");
             temp = temp.getNext();
         }
-        System.out.print(temp.getData() + "\n");
+        System.out.println(temp.getData());
 
-        System.out.println("Front Pointer => " + l.getStart().getData());
-        System.out.println("Rear Pointer  => " + l.getEnd().getData());
+        System.out.println("Front Pointer => " + list.getStart().getData());
+        System.out.println("Rear Pointer  => " + list.getEnd().getData() + "\n");
+    }
+
+    public int getSize() {
+        return list.getSize();
     }
 }
