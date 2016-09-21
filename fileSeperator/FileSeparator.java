@@ -21,6 +21,7 @@ public class FileSeparator {
         }
     }
 
+    //this class is like Node Class as it just has data, and it it to make the methods look cleaner and run smoother.
     public class FileData {
         private int returnCode;
         private byte[] returnBytes;
@@ -47,18 +48,16 @@ public class FileSeparator {
     }
 
     public void partitionFile(String basePartitionedFileName, int numberOfPartitions, int maxByteDifference) {
-        int timesRead = 0;
         int partitionCounter = 0;
-        FileData z = readFile(timesRead, maxByteDifference);
+        FileData z = readFile(maxByteDifference);
 
         while (z.getReturnCode() != -1) {
-            writeFile(basePartitionedFileName + (partitionCounter % numberOfPartitions), z.getReturnBytes());
-
             if (z.getReturnCode() < maxByteDifference) {
                 writeFile(basePartitionedFileName + (partitionCounter % numberOfPartitions), Arrays.copyOf(z.getReturnBytes(), z.getReturnCode()));
+                return;
             }
-
-            z = readFile(timesRead, maxByteDifference);
+            writeFile(basePartitionedFileName + (partitionCounter % numberOfPartitions), z.getReturnBytes());
+            z = readFile(maxByteDifference);
             partitionCounter++;
         }
     }
@@ -72,12 +71,12 @@ public class FileSeparator {
         }
     }
 
-    public FileData readFile(int partOfFile, int sizeOfBuffer) {
+    public FileData readFile(int sizeOfBuffer) {
         byte[] readBytes = new byte[sizeOfBuffer];
         fileData = new FileData(sizeOfBuffer);
 
         try {
-            fileData.setReturnCode(fileStream.read(readBytes, partOfFile * sizeOfBuffer, sizeOfBuffer));
+            fileData.setReturnCode(fileStream.read(readBytes, 0, sizeOfBuffer));
             fileData.setReturnBytes(readBytes);
 
         } catch (IOException e) {

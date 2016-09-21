@@ -12,18 +12,25 @@ public class FileCombiner {
         file = new FileOutputStream("tester");
 
         FileInputStream[] ins = new FileInputStream[5];
-        ins[0] = new FileInputStream("file0");
-        ins[1] = new FileInputStream("file1");
-        ins[2] = new FileInputStream("file2");
-        ins[3] = new FileInputStream("file3");
-        ins[4] = new FileInputStream("file4");
+        ins[0] = new FileInputStream("base0");
+        ins[1] = new FileInputStream("base1");
+        ins[2] = new FileInputStream("base2");
+        ins[3] = new FileInputStream("base3");
+        ins[4] = new FileInputStream("base4");
 
         int count = 0;
         byte x = -1;
 
-        while ((x = (byte) ins[count % 5].read()) != -1) {
+        file.write(ins[count % 5].read());
+
+        while (x != -1) {
             System.out.println(x);
-            file.write(x);
+            file.write(ins[count % 5].read());
+            file.write(ins[count % 5].read());
+            file.write(ins[count % 5].read());
+            file.write(ins[count % 5].read());
+            file.write(ins[count % 5].read());
+
             count++;
         }
         if (file != null) {

@@ -12,6 +12,11 @@ public class FileDriver {
         new FileMaker().makeFile(349, "output.txt");
         FileSeparator s = new FileSeparator("output.txt");
         s.partitionFile("base", 5, 5);
+        try {
+            new FileCombiner().complete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //s.writeFile("testout.txt", s.readFile(0,5).);
         //System.out.println(Arrays.toString(s.readFile(0, 5)));
     }
