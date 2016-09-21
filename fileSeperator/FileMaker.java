@@ -13,26 +13,19 @@ public class FileMaker {
     private Random randomizer = new Random();
     private FileOutputStream fileOut;
 
-    public FileMaker(long sizeOfFile) {
-        this.sizeOfFile = sizeOfFile;
-    }
-
     //sizeOfFile in bytes
-    public void makeFile() {
+    public void makeFile(long sizeOfFile, String nameOfFile) {
         try {
-            fileOut = new FileOutputStream("output.txt");
+            fileOut = new FileOutputStream(nameOfFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < sizeOfFile; i++) {
-            char c = (char) (randomizer.nextInt(26) + 'a');
-            try {
-                fileOut.write(c);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         try {
+            //randomly generates a-z characters and writes them to file.
+            for (int i = 0; i < sizeOfFile; i++) {
+                char c = (char) (randomizer.nextInt(26) + 'a');
+                fileOut.write(c);
+            }
             fileOut.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 public class FileCombiner {
     public static void complete() throws Exception {
         FileOutputStream file = null;
-        file = new FileOutputStream("tester.txt");
+        file = new FileOutputStream("tester");
 
         FileInputStream[] ins = new FileInputStream[5];
         ins[0] = new FileInputStream("file0");
@@ -22,6 +22,7 @@ public class FileCombiner {
         byte x = -1;
 
         while ((x = (byte) ins[count % 5].read()) != -1) {
+            System.out.println(x);
             file.write(x);
             count++;
         }
@@ -29,9 +30,4 @@ public class FileCombiner {
             file.close();
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        complete();
-    }
-
 }
