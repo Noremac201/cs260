@@ -14,12 +14,13 @@ public class FileDriver {
 
     public static void main(String[] args) {
         JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.FILES_ONLY);
         Scanner console = new Scanner(System.in);
         int returnVal = j.showOpenDialog(new JFrame());
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to partition this file: " +
-                    j.getSelectedFile().getName() + ", is that correct? yes/no/exit");
+            System.out.println("You are partitioning this file: " +
+                    j.getSelectedFile().getName());
         }
         System.out.println("Please enter base name for partitioned files.");
         String baseName = console.next();
@@ -29,5 +30,6 @@ public class FileDriver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        console.close();
     }
 }
