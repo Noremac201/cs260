@@ -1,34 +1,41 @@
 package fileSeperator;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
  * Created by bold on 9/15/16.
  */
 public class FileDriver {
+    //these refer to bytes in a mB/kB.
+    private static final int mB = 1000000;
+    private static final int kB = 1000;
 
     public static void main(String[] args) {
-        JFileChooser j = new JFileChooser();
-        j.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         Scanner console = new Scanner(System.in);
-        int returnVal = j.showOpenDialog(new JFrame());
+        int returnVal = fileChooser.showOpenDialog(null);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.getSelectedFile().length() > 100 * mB || fileChooser.getSelectedFile().length() < kB) {
+                System.err.println("File is out of range (1kB - 100mB).");
+                System.exit(10);
+            }
+
+            System.out.println(fileChooser.getSelectedFile().length());
             System.out.println("You are partitioning this file: " +
-                    j.getSelectedFile().getName());
+                    fileChooser.getSelectedFile().getName());
         }
-        System.out.println("Please enter base name for partitioned files.");
+        System.out.print("Please enter base name for partitioned files: ");
         String baseName = console.next();
-        FileSeparatorTest t = new FileSeparatorTest(j.getSelectedFile().getAbsolutePath(), baseName, 5, 5);
+
+        FilePartitioner t = new FilePartitioner(fileChooser.getSelectedFile().getAbsolutePath(), baseName, 5, 5);
         try {
             t.partitionFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
         console.close();
     }
