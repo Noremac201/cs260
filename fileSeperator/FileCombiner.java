@@ -6,26 +6,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class FilePartitioner {
+/**
+ * Created by bold on 9/26/16.
+ */
+public class FileCombiner {
     private String fileName;
     private String baseOutputName;
     private int numberOfFiles;
-    private FileInputStream fileStream;
-    private FileOutputStream[] arrOfOuts = null;
+    private FileOutputStream fileStream;
+    private FileInputStream[] arrOfIns = null;
     private int maxByteDifference = 0;
 
     /**
      * Constructor for the main class FileSeparator.
      *
-     * @param fileName          The fileName of the file that is going to be partitioned.
-     * @param baseOutputName    The base name of the partitoned file, they will be appended with
+     * @param baseFileName      The fileName of the file that is going to be partitioned.
+     * @param outputName        The base name of the partitoned file, they will be
+     *                          appended with
      *                          numbers 0-numFiles.
      * @param maxByteDifference The max number of byte difference allowed/wanted.
      * @param numFiles          number of files to be partitioned into.
      */
-    public FilePartitioner(String fileName, String baseOutputName, int maxByteDifference, int numFiles) {
-        this.fileName = fileName;
-        this.baseOutputName = baseOutputName;
+    public FileCombiner(String baseFileName, String outputName, int maxByteDifference, int numFiles) {
+        this.fileName = baseFileName;
+        this.baseOutputName = outputName;
         this.maxByteDifference = maxByteDifference;
         this.numberOfFiles = numFiles;
     }
@@ -36,15 +40,14 @@ public class FilePartitioner {
      *
      * @throws IOException
      */
-    public void partitionFile() throws IOException {
+    public void combineFile() throws IOException {
         int partitionCounter = 0;
         DataBuffer buffer = null;
 
         initializeStreams();
         //assignment statement combined with while loop.
-        while ((buffer = readFile(maxByteDifference)).hasData()) {
-            writeFile(partitionCounter % numberOfFiles, buffer.getBytes());
-            partitionCounter++;
+        while ((buffer = readFile(maxByteDifference, partitionCounter++ % numberOfFiles)).hasData()) {
+            writeFile(buffer.getBytes());
         }
         closeStreams();
     }
@@ -52,12 +55,11 @@ public class FilePartitioner {
     /**
      * This writes to all the files.
      *
-     * @param partitionNum Which number file to write to.
-     * @param byteArr      The byte array that is going to be written to the file.
+     * @param byteArr The byte array that is going to be written to the file.
      * @throws IOException
      */
-    private void writeFile(int partitionNum, byte[] byteArr) throws IOException {
-        arrOfOuts[partitionNum].write(byteArr);
+    private void writeFile(byte[] byteArr) throws IOException {
+        fileStream.write(byteArr);
     }
 
     /**
@@ -69,8 +71,8 @@ public class FilePartitioner {
      * @return Returns an object that has been populated by calling it's constructor.
      * @throws IOException
      */
-    private DataBuffer readFile(int sizeOfBuffer) throws IOException {
-        return new DataBuffer(fileStream, maxByteDifference);
+    private DataBuffer readFile(int sizeOfBuffer, int partitionNumber) throws IOException {
+        return new DataBuffer(arrOfIns[partitionNumber], maxByteDifference);
     }
 
     /**
@@ -81,11 +83,11 @@ public class FilePartitioner {
      * @throws FileNotFoundException
      */
     private void initializeStreams() throws FileNotFoundException {
-        fileStream = new FileInputStream(fileName);
-        arrOfOuts = new FileOutputStream[numberOfFiles];
+        fileStream = new FileOutputStream(fileName);
+        arrOfIns = new FileInputStream[numberOfFiles];
 
         for (int i = 0; i < numberOfFiles; i++) {
-            arrOfOuts[i] = new FileOutputStream(baseOutputName + i);
+            arrOfIns[i] = new FileInputStream(baseOutputName + i);
         }
     }
 
@@ -98,7 +100,7 @@ public class FilePartitioner {
     private void closeStreams() throws IOException {
         fileStream.close();
         for (int i = 0; i < numberOfFiles; i++) {
-            arrOfOuts[i].close();
+            arrOfIns[i].close();
         }
     }
 
@@ -135,6 +137,5 @@ public class FilePartitioner {
             return this.returnCode > 0;
         }
     }
-
 
 }

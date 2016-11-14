@@ -1,3 +1,5 @@
+package customQueue;
+
 import java.util.Scanner;
 
 public class QueueDriver {
